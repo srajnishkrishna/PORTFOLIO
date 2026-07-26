@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rajnish Singh — Software Engineer, AI Agents & Business Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#150E0F;
+    --surface:#221614;
+    --surface-2:#2B1B18;
+    --line:#3C2A24;
+    --brass:#C99A5B;
+    --brass-dim:#8A6A42;
+    --signal:#6FBF8B;
+    --ivory:#F3EAE0;
+    --muted:#B8A99A;
+    --danger-ish:#C97B5B;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ivory);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(201,154,91,0.035) 0px, rgba(201,154,91,0.035) 1px, transparent 1px, transparent 48px),
+      repeating-linear-gradient(90deg, rgba(201,154,91,0.035) 0px, rgba(201,154,91,0.035) 1px, transparent 1px, transparent 48px);
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3,.display{
+    font-family:'Big Shoulders Display', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    font-weight:800;
+    color:var(--ivory);
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+  :focus-visible{outline:2px solid var(--brass); outline-offset:3px;}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(21,14,15,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px; letter-spacing:0.12em;
+    color:var(--brass);
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--signal);
+    box-shadow:0 0 0 3px rgba(111,191,139,0.18);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;} 50%{opacity:0.35;}
+  }
+  nav{display:flex; gap:28px; font-size:13px;}
+  nav a{
+    color:var(--muted); font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.06em; font-size:12px;
+    transition:color 0.2s;
+    padding-bottom:3px; border-bottom:1px solid transparent;
+  }
+  nav a:hover{color:var(--brass); border-color:var(--brass);}
+  .nav-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:110px 0 90px;
+    position:relative;
+  }
+  .hero .kicker{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--brass); font-size:13px; letter-spacing:0.15em;
+    display:flex; align-items:center; gap:12px; margin-bottom:22px;
+  }
+  .hero .kicker::before{
+    content:""; width:34px; height:1px; background:var(--brass-dim);
+  }
+  .hero h1{
+    font-size:clamp(48px, 8.5vw, 104px);
+    line-height:0.92;
+    margin-bottom:22px;
+  }
+  .hero h1 span{color:var(--brass);}
+  .hero p.lede{
+    max-width:560px; color:var(--muted); font-size:18px; margin-bottom:36px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px; letter-spacing:0.06em;
+    padding:14px 24px;
+    border:1px solid var(--brass-dim);
+    display:inline-block;
+    transition:all 0.2s;
+  }
+  .btn-solid{background:var(--brass); color:var(--bg); border-color:var(--brass); font-weight:600;}
+  .btn-solid:hover{background:#dbb073;}
+  .btn-outline{color:var(--ivory);}
+  .btn-outline:hover{border-color:var(--brass); color:var(--brass);}
+
+  .hero-meta{
+    margin-top:64px; display:grid; grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line); padding-top:20px; gap:20px; max-width:640px;
+  }
+  .hero-meta div .num{font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:12px;}
+  .hero-meta div .label{color:var(--muted); font-size:13px; margin-top:4px;}
+
+  /* ---------- section heading pattern ---------- */
+  .section-head{
+    display:flex; align-items:baseline; gap:16px; margin-bottom:14px;
+  }
+  .section-head .tag{
+    font-family:'IBM Plex Mono',monospace; color:var(--brass);
+    font-size:12px; letter-spacing:0.15em; border:1px solid var(--brass-dim);
+    padding:4px 10px;
+  }
+  .section-head h2{font-size:clamp(30px,4vw,44px);}
+  .section-sub{color:var(--muted); max-width:620px; margin-bottom:48px; font-size:15px;}
+
+  section{padding:90px 0; position:relative; border-top:1px solid var(--line);}
+
+  /* ---------- patch panel (services board) ---------- */
+  .panel-grid{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+    border:1px solid var(--line);
+  }
+  .jack{
+    border-right:1px solid var(--line);
+    padding:26px 18px 30px;
+    background:var(--surface);
+    position:relative;
+    transition:background 0.25s;
+    cursor:pointer;
+  }
+  .jack:last-child{border-right:none;}
+  .jack:hover{background:var(--surface-2);}
+  .jack .line-id{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--brass-dim);
+    letter-spacing:0.1em; margin-bottom:18px; display:block;
+  }
+  .jack .port{
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--brass-dim);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px; transition:border-color 0.25s;
+  }
+  .jack:hover .port{border-color:var(--brass);}
+  .jack .port::after{
+    content:""; width:9px; height:9px; border-radius:50%; background:var(--signal);
+  }
+  .jack h3{font-size:19px; line-height:1.15; margin-bottom:10px;}
+  .jack p{color:var(--muted); font-size:13px;}
+  .jack .go{
+    margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--brass); letter-spacing:0.08em; opacity:0; transform:translateY(4px);
+    transition:all 0.25s;
+  }
+  .jack:hover .go{opacity:1; transform:translateY(0);}
+
+  @media(max-width:920px){
+    .panel-grid{grid-template-columns:1fr 1fr;}
+    .jack{border-bottom:1px solid var(--line);}
+    .jack:nth-child(2n){border-right:none;}
+  }
+  @media(max-width:560px){
+    .panel-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- example detail sections ---------- */
+  .example{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start;
+  }
+  @media(max-width:860px){ .example{grid-template-columns:1fr;} }
+  .example.reverse{grid-template-columns:1.1fr 0.9fr;}
+  @media(max-width:860px){ .example.reverse{grid-template-columns:1fr;} .example.reverse .demo{order:-1;} }
+
+  .example .badge{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px;
+    color:var(--signal); border:1px solid rgba(111,191,139,0.4); padding:3px 9px;
+    letter-spacing:0.1em; margin-bottom:18px;
+  }
+  .example h2{font-size:clamp(26px,3.4vw,36px); margin-bottom:16px;}
+  .example .desc{color:var(--muted); margin-bottom:24px; font-size:15px; max-width:460px;}
+  .feature-list{list-style:none;}
+  .feature-list li{
+    display:flex; gap:12px; font-size:14px; padding:10px 0; border-top:1px solid var(--line);
+    color:var(--ivory);
+  }
+  .feature-list li:last-child{border-bottom:1px solid var(--line);}
+  .feature-list li::before{content:"—"; color:var(--brass);}
+
+  .demo{
+    background:var(--surface); border:1px solid var(--line); padding:22px;
+    position:relative;
+  }
+  .demo .demo-label{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted);
+    letter-spacing:0.12em; margin-bottom:14px; display:flex; justify-content:space-between;
+  }
+
+  /* WhatsApp mockup */
+  .phone{
+    width:280px; margin:0 auto; background:#0F1A14; border:6px solid #1c1410; border-radius:28px;
+    overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  }
+  .phone-head{
+    background:#1F2E24; padding:14px 16px; display:flex; align-items:center; gap:10px;
+    border-bottom:1px solid #2A3D30;
+  }
+  .phone-head .avatar{width:30px; height:30px; border-radius:50%; background:var(--brass); flex-shrink:0;}
+  .phone-head .who{font-size:13px; font-weight:600; color:#EDEDED;}
+  .phone-head .status{font-size:10px; color:var(--signal); font-family:'IBM Plex Mono',monospace;}
+  .chat-body{padding:16px 12px; display:flex; flex-direction:column; gap:8px; min-height:280px;}
+  .bubble{
+    max-width:82%; padding:8px 11px; border-radius:9px; font-size:12.5px; line-height:1.4;
+    position:relative;
+  }
+  .bubble.in{background:#1F2A22; color:#E8E8E8; align-self:flex-start; border-top-left-radius:2px;}
+  .bubble.out{background:#256247; color:#F3F9F4; align-self:flex-end; border-top-right-radius:2px;}
+  .bubble .time{display:block; font-size:9px; opacity:0.55; margin-top:4px; text-align:right;}
+  .quick-replies{display:flex; gap:6px; flex-wrap:wrap; align-self:flex-end; max-width:90%; justify-content:flex-end;}
+  .quick-replies span{
+    border:1px solid #2E7A56; color:#7BE0A8; font-size:10.5px; padding:5px 9px; border-radius:14px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  /* Calling mockup */
+  .call-card{background:#1B1210; border:1px solid var(--line);}
+  .call-top{
+    display:flex; align-items:center; justify-content:space-between; padding:16px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .call-top .who{font-size:15px; font-weight:600;}
+  .call-top .num{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);}
+  .waveform{display:flex; align-items:flex-end; gap:3px; height:44px; padding:14px 18px;}
+  .waveform span{
+    width:4px; background:var(--signal); border-radius:2px; opacity:0.85;
+    animation:wave 1.1s ease-in-out infinite;
+  }
+  @keyframes wave{ 0%,100%{transform:scaleY(0.3);} 50%{transform:scaleY(1);} }
+  .transcript{padding:4px 18px 20px; font-size:12.5px;}
+  .transcript .row{display:flex; gap:10px; padding:8px 0; border-top:1px dashed var(--line);}
+  .transcript .spk{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--brass); min-width:60px;}
+  .transcript .txt{color:var(--muted);}
+
+  /* Chatbot mockup */
+  .browser{
+    background:#1B1210; border:1px solid var(--line);
+  }
+  .browser-bar{
+    display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:1px solid var(--line);
+  }
+  .browser-bar .dotb{width:8px; height:8px; border-radius:50%; background:var(--line);}
+  .browser-bar .url{
+    margin-left:10px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted);
+    background:var(--surface); padding:4px 10px; border-radius:4px; flex:1;
+  }
+  .browser-body{position:relative; height:280px; background:linear-gradient(180deg,#20140F,#170F0D); overflow:hidden;}
+  .site-skel{position:absolute; inset:18px; opacity:0.35;}
+  .site-skel .line{height:8px; background:var(--muted); margin-bottom:10px; border-radius:2px;}
+  .site-skel .line.w60{width:60%;} .site-skel .line.w40{width:40%;} .site-skel .line.w90{width:90%;}
+  .widget{
+    position:absolute; right:16px; bottom:16px; width:210px;
+    background:#221614; border:1px solid var(--brass-dim); border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.5);
+  }
+  .widget-head{
+    background:var(--brass); color:var(--bg); padding:10px 12px; font-size:12px; font-weight:700;
+    border-radius:10px 10px 0 0; display:flex; justify-content:space-between; align-items:center;
+  }
+  .widget-body{padding:12px; font-size:11.5px; color:var(--ivory); display:flex; flex-direction:column; gap:8px;}
+  .widget-body .bot-msg{background:var(--surface-2); padding:8px 10px; border-radius:8px; color:#E8E1D6;}
+  .widget-body .opts{display:flex; flex-direction:column; gap:6px;}
+  .widget-body .opts span{
+    border:1px solid var(--brass-dim); padding:6px 8px; border-radius:6px; font-size:10.5px; color:var(--brass);
+  }
+
+  /* Website mockup reused pattern above (browser) with different skeleton = built inline */
+
+  /* Billing dashboard mockup */
+  .dash{background:#1B1210; border:1px solid var(--line); display:flex; min-height:300px;}
+  .dash-side{width:70px; border-right:1px solid var(--line); padding:16px 0; display:flex; flex-direction:column; align-items:center; gap:18px;}
+  .dash-side .ic{width:22px; height:22px; border-radius:5px; background:var(--surface-2); border:1px solid var(--line);}
+  .dash-side .ic.active{background:var(--brass); border-color:var(--brass);}
+  .dash-main{flex:1; padding:18px 20px;}
+  .dash-main .dtitle{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.1em; margin-bottom:14px;}
+  .dash-cards{display:flex; gap:12px; margin-bottom:18px;}
+  .dcard{flex:1; background:var(--surface); border:1px solid var(--line); padding:10px 12px;}
+  .dcard .k{font-size:10px; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+  .dcard .v{font-size:17px; font-weight:700; margin-top:4px;}
+  .dcard .v.pos{color:var(--signal);}
+  .inv-table{width:100%; border-collapse:collapse; font-size:11px;}
+  .inv-table th{text-align:left; color:var(--muted); font-weight:500; padding:6px 4px; border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.05em;}
+  .inv-table td{padding:7px 4px; border-bottom:1px solid var(--line); color:var(--ivory);}
+  .inv-table td.status{color:var(--signal); font-size:10px;}
+  .inv-table td.status.due{color:var(--danger-ish);}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px;}
+  @media(max-width:800px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{color:var(--muted); margin-bottom:16px; font-size:15px;}
+  .stack{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px;}
+  .stack span{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--brass);
+    border:1px solid var(--brass-dim); padding:5px 10px;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px;
+  }
+  .contact-box h2{font-size:clamp(34px,5vw,58px); max-width:640px; line-height:1.05;}
+  .contact-links{display:flex; flex-direction:column; gap:10px;}
+  .contact-links a{
+    font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--ivory);
+    border-bottom:1px solid var(--line); padding-bottom:6px; transition:color 0.2s, border-color 0.2s;
+  }
+  .contact-links a:hover{color:var(--brass); border-color:var(--brass);}
+
+  footer{border-top:1px solid var(--line); padding:26px 0; color:var(--muted); font-size:12px; font-family:'IBM Plex Mono',monospace;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (max-width:700px){
+    nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> RAJNISH SINGH / SOFTWARE ENGINEER</div>
+    <nav>
+      <a href="#board">Board</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="kicker mono">AI AGENTS · WEB · BUSINESS SOFTWARE</div>
+    <h1>Singh<br>Rajnish<span>.</span></h1>
+    <p class="lede">Software engineer who builds the systems your business actually runs on — AI agents that answer WhatsApp, pick up the phone, and chat on your site, plus the websites and billing software behind them.</p>
+    <div class="hero-actions">
+      <a href="#board" class="btn btn-solid">See the work</a>
+      <a href="#contact" class="btn btn-outline">Get in touch</a>
+    </div>
+    <div class="hero-meta">
+      <div><div class="num mono">05</div><div class="label">service lines, live below</div></div>
+      <div><div class="num mono">24×7</div><div class="label">agents don't take breaks</div></div>
+      <div><div class="num mono">1:1</div><div class="label">built for your workflow</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="board">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">THE BOARD</span>
+      <h2>Five lines, one operator</h2>
+    </div>
+    <p class="section-sub reveal">Every line below is a service I build end-to-end — plug in and it starts working. Click a jack to see a sample build.</p>
+
+    <div class="panel-grid reveal">
+      <a class="jack" href="#whatsapp">
+        <span class="line-id mono">LINE 01</span>
+        <div class="port"></div>
+        <h3>WhatsApp AI Agent</h3>
+        <p>Answers customers, tracks orders, books slots — right inside WhatsApp.</p>
+        <div class="go mono">VIEW SAMPLE →</div>
+      </a>
+      <a class="jack" href="#calling">
+        <span class="line-id mono">LINE 02</span>
+        <div class="port"></div>
+        <h3>AI Calling Agent</h3>
+        <p>Picks up or makes calls, qualifies leads, hands off warm ones to you.</p>
+        <div class="go mono">VIEW SAMPLE →</div>
+      </a>
+      <a class="jack" href="#chatbot">
+        <span class="line-id mono">LINE 03</span>
+        <div class="port"></div>
+        <h3>AI Chatbot Agent</h3>
+        <p>A support and sales chat widget for your website, trained on your business.</p>
+        <div class="go mono">VIEW SAMPLE →</div>
+      </a>
+      <a class="jack" href="#website">
+        <span class="line-id mono">LINE 04</span>
+        <div class="port"></div>
+        <h3>Websites</h3>
+        <p>Fast, clean business and product websites, built from scratch.</p>
+        <div class="go mono">VIEW SAMPLE →</div>
+      </a>
+      <a class="jack" href="#billing">
+        <span class="line-id mono">LINE 05</span>
+        <div class="port"></div>
+        <h3>Billing / ERP Software</h3>
+        <p>Invoicing, stock, and daily-operations software built for your shop or firm.</p>
+        <div class="go mono">VIEW SAMPLE →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP -->
+<section id="whatsapp">
+  <div class="wrap example reveal">
+    <div>
+      <span class="badge mono">LINE 01 · ACTIVE</span>
+      <h2>WhatsApp AI Agent</h2>
+      <p class="desc">A WhatsApp Business agent that answers customer questions instantly, checks order status, and books appointments — without a human on the other end during rush hours.</p>
+      <ul class="feature-list">
+        <li>Answers FAQs and product questions in your business's tone</li>
+        <li>Looks up live order / booking status and replies with details</li>
+        <li>Escalates to a human when the query needs one</li>
+        <li>Works in English, Hindi, and Hinglish</li>
+      </ul>
+    </div>
+    <div class="demo">
+      <div class="demo-label mono"><span>SAMPLE BUILD</span><span>WHATSAPP · ORDER SUPPORT</span></div>
+      <div class="phone">
+        <div class="phone-head">
+          <div class="avatar"></div>
+          <div>
+            <div class="who">Order Support</div>
+            <div class="status">● online — AI agent</div>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="bubble in">Hi, mera order #4521 kab tak aayega?<span class="time">10:42</span></div>
+          <div class="bubble out">Checking your order now… Order #4521 (2x Ceramic Mug Set) shipped today via Delhivery. Expected by 27 Jul.<span class="time">10:42 ✓✓</span></div>
+          <div class="bubble in">Track kaise karu?<span class="time">10:43</span></div>
+          <div class="bubble out">Here's your tracking link: track.example.com/4521 — I'll message you when it's out for delivery.<span class="time">10:43 ✓✓</span></div>
+          <div class="quick-replies"><span>Change address</span><span>Talk to a person</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALLING -->
+<section id="calling">
+  <div class="wrap example reverse reveal">
+    <div class="demo">
+      <div class="demo-label mono"><span>SAMPLE BUILD</span><span>OUTBOUND · LEAD FOLLOW-UP</span></div>
+      <div class="call-card">
+        <div class="call-top">
+          <div>
+            <div class="who">Calling +91 98XXX XXXXX</div>
+            <div class="num mono">00:38 · connected</div>
+          </div>
+          <div class="num mono" style="color:var(--signal);">● LIVE</div>
+        </div>
+        <div class="waveform">
+          <span style="animation-delay:0s;height:60%"></span><span style="animation-delay:0.1s;height:90%"></span>
+          <span style="animation-delay:0.2s;height:40%"></span><span style="animation-delay:0.3s;height:100%"></span>
+          <span style="animation-delay:0.4s;height:55%"></span><span style="animation-delay:0.5s;height:75%"></span>
+          <span style="animation-delay:0.6s;height:35%"></span><span style="animation-delay:0.7s;height:85%"></span>
+          <span style="animation-delay:0.8s;height:50%"></span><span style="animation-delay:0.9s;height:65%"></span>
+        </div>
+        <div class="transcript">
+          <div class="row"><span class="spk mono">AGENT</span><span class="txt">Hi, this is calling from Sharma Interiors regarding the quote you requested. Good time to talk?</span></div>
+          <div class="row"><span class="spk mono">CUSTOMER</span><span class="txt">Yeah, go ahead.</span></div>
+          <div class="row"><span class="spk mono">AGENT</span><span class="txt">Great — you asked about modular kitchens. Can I get your budget range so I can book the right consultant?</span></div>
+          <div class="row"><span class="spk mono">CUSTOMER</span><span class="txt">Around 3 to 4 lakh.</span></div>
+          <div class="row"><span class="spk mono">AGENT</span><span class="txt">Noted. Booking you a site visit for Tuesday — sending confirmation on WhatsApp now.</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="badge mono">LINE 02 · ACTIVE</span>
+      <h2>AI Calling Agent</h2>
+      <p class="desc">A voice agent that makes and receives real phone calls — qualifying leads, confirming bookings, and following up — sounding natural, not scripted.</p>
+      <ul class="feature-list">
+        <li>Handles inbound calls when your team is busy or offline</li>
+        <li>Runs outbound follow-ups on leads at scale</li>
+        <li>Books appointments straight into your calendar</li>
+        <li>Sends a call summary to you after every conversation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CHATBOT -->
+<section id="chatbot">
+  <div class="wrap example reveal">
+    <div>
+      <span class="badge mono">LINE 03 · ACTIVE</span>
+      <h2>AI Chatbot Agent</h2>
+      <p class="desc">A chat widget for your website that knows your products, pricing, and policies — turning visitors into leads instead of letting them bounce.</p>
+      <ul class="feature-list">
+        <li>Trained on your site content, catalog, and policies</li>
+        <li>Captures name / phone / email before handing off a lead</li>
+        <li>Suggests products or plans based on what's asked</li>
+        <li>Drops straight into any website, no rebuild needed</li>
+      </ul>
+    </div>
+    <div class="demo">
+      <div class="demo-label mono"><span>SAMPLE BUILD</span><span>WEBSITE CHAT WIDGET</span></div>
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dotb"></span><span class="dotb"></span><span class="dotb"></span>
+          <span class="url">yourbusiness.com</span>
+        </div>
+        <div class="browser-body">
+          <div class="site-skel">
+            <div class="line w40"></div>
+            <div class="line w90"></div>
+            <div class="line w60"></div>
+            <div class="line w90" style="margin-top:24px;"></div>
+            <div class="line w40"></div>
+          </div>
+          <div class="widget">
+            <div class="widget-head"><span>Chat with us</span><span>—</span></div>
+            <div class="widget-body">
+              <div class="bot-msg">Hi! I'm here to help — are you looking for pricing, or do you have a support question?</div>
+              <div class="opts">
+                <span>💬 See pricing</span>
+                <span>🛠 I need support</span>
+                <span>📞 Book a call</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEBSITE -->
+<section id="website">
+  <div class="wrap example reverse reveal">
+    <div class="demo">
+      <div class="demo-label mono"><span>SAMPLE BUILD</span><span>BUSINESS WEBSITE</span></div>
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dotb"></span><span class="dotb"></span><span class="dotb"></span>
+          <span class="url">ananyainteriors.com</span>
+        </div>
+        <div class="browser-body" style="padding:0;">
+          <div style="padding:22px 20px; height:100%; display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="font-family:'Big Shoulders Display',sans-serif; font-weight:700; letter-spacing:0.04em; color:var(--brass); font-size:15px;">ANANYA INTERIORS</div>
+              <div style="display:flex; gap:14px; font-size:9px; color:var(--muted); font-family:'IBM Plex Mono',monospace;">
+                <span>WORK</span><span>SERVICES</span><span>CONTACT</span>
+              </div>
+            </div>
+            <div style="flex:1; background:linear-gradient(135deg,#2B1B18,#1B1210); border:1px solid var(--line); display:flex; flex-direction:column; justify-content:center; padding:22px;">
+              <div style="font-family:'Big Shoulders Display',sans-serif; font-size:26px; line-height:1; color:var(--ivory); margin-bottom:10px;">SPACES THAT<br>WORK HARDER.</div>
+              <div style="font-size:11px; color:var(--muted); max-width:70%; margin-bottom:14px;">Interior design & modular fit-outs for homes and offices across the city.</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--brass); border:1px solid var(--brass-dim); padding:6px 12px; width:fit-content;">BOOK A CONSULT →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="badge mono">LINE 04 · ACTIVE</span>
+      <h2>Websites</h2>
+      <p class="desc">Clean, fast websites built for what your business actually needs — a landing page, a catalog, a booking flow — without unnecessary bloat.</p>
+      <ul class="feature-list">
+        <li>Custom design, not a generic template</li>
+        <li>Fast load times and mobile-first layout</li>
+        <li>Built-in contact / lead forms that go straight to you</li>
+        <li>Easy to plug in the chatbot or WhatsApp agent later</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BILLING -->
+<section id="billing">
+  <div class="wrap example reveal">
+    <div>
+      <span class="badge mono">LINE 05 · ACTIVE</span>
+      <h2>Billing / ERP Software</h2>
+      <p class="desc">Day-to-day business software — billing, invoicing, stock, and simple reports — built around how your shop or office actually works, not a bloated off-the-shelf tool.</p>
+      <ul class="feature-list">
+        <li>GST-ready invoicing and quick billing at the counter</li>
+        <li>Stock / inventory tracking with low-stock alerts</li>
+        <li>Customer ledger and due-payment tracking</li>
+        <li>Simple sales reports, no accounting degree needed</li>
+      </ul>
+    </div>
+    <div class="demo">
+      <div class="demo-label mono"><span>SAMPLE BUILD</span><span>BILLING DASHBOARD</span></div>
+      <div class="dash">
+        <div class="dash-side">
+          <div class="ic active"></div>
+          <div class="ic"></div>
+          <div class="ic"></div>
+          <div class="ic"></div>
+        </div>
+        <div class="dash-main">
+          <div class="dtitle">TODAY'S BILLING — 25 JUL</div>
+          <div class="dash-cards">
+            <div class="dcard"><div class="k">SALES</div><div class="v pos">₹42,180</div></div>
+            <div class="dcard"><div class="k">INVOICES</div><div class="v">27</div></div>
+            <div class="dcard"><div class="k">DUE</div><div class="v" style="color:var(--danger-ish);">₹6,400</div></div>
+          </div>
+          <table class="inv-table">
+            <thead><tr><th>INV#</th><th>CUSTOMER</th><th>AMOUNT</th><th>STATUS</th></tr></thead>
+            <tbody>
+              <tr><td>1042</td><td>R. Mehta</td><td>₹3,200</td><td class="status">Paid</td></tr>
+              <tr><td>1043</td><td>Anita Traders</td><td>₹8,750</td><td class="status">Paid</td></tr>
+              <tr><td>1044</td><td>K. Verma</td><td>₹1,400</td><td class="status due">Due</td></tr>
+              <tr><td>1045</td><td>Om Enterprises</td><td>₹5,000</td><td class="status">Paid</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid reveal">
+    <div>
+      <div class="section-head" style="margin-bottom:20px;">
+        <span class="tag">ABOUT</span>
+        <h2>The operator</h2>
+      </div>
+      <p>I'm Rajnish Singh, a software engineer building the practical systems small and mid-size businesses need: agents that handle WhatsApp, calls, and chat around the clock, and the websites and billing software those agents plug into.</p>
+      <p>My focus is simple — replace repetitive manual work with something reliable, so you spend less time answering the same question twice and more time running the business.</p>
+    </div>
+    <div>
+      <p style="color:var(--muted); font-size:13px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.08em; margin-bottom:6px;">TOOLS ON THE BENCH</p>
+      <div class="stack">
+        <span>WhatsApp Business API</span>
+        <span>Voice AI / Telephony</span>
+        <span>LLM Integration</span>
+        <span>Node.js</span>
+        <span>Python</span>
+        <span>React</span>
+        <span>SQL / PostgreSQL</span>
+        <span>REST APIs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap reveal">
+    <div class="section-head" style="margin-bottom:20px;">
+      <span class="tag">CONTACT</span>
+    </div>
+    <div class="contact-box">
+      <h2>Have a workflow you'd rather not do by hand? Let's wire it up.</h2>
+      <div class="contact-links">
+        <a href="mailto:srajnishkrishna@gmail.com">srajnishkrishna@gmail.com</a>
+        <a href="tel:+919265993727">+91 92659 93727</a>
+        <a href="#">linkedin.com/in/singhrajnish</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Rajnish Singh</span>
+    <span>Built &amp; wired by hand.</span>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
